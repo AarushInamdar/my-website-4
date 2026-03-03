@@ -81,14 +81,14 @@ export function useShell() {
             }
 
             const entries = Object.entries(node.children || {}).map(([name, child]) => {
-                if (child.type === 'dir') return `\x1b[1;36m${name}/\x1b[0m`;
-                if (name.endsWith('.sh')) return `\x1b[1;32m${name}\x1b[0m`;
-                if (child.protected) return `\x1b[1;31m${name}\x1b[0m`;
-                if (child.hardware) return `\x1b[1;33m${name}\x1b[0m`;
+                if (child.type === 'dir') return `<span class="text-neon-cyan font-bold">${name}/</span>`;
+                if (name.endsWith('.sh')) return `<span class="text-green-400 font-bold">${name}</span>`;
+                if (child.protected) return `<span class="text-red-400 font-bold">${name}</span>`;
+                if (child.hardware) return `<span class="text-amber-400 font-bold">${name}</span>`;
                 return name;
             });
 
-            addLine(entries.join('  '), 'output');
+            addLine(`<div class="flex flex-wrap gap-4 mt-1 mb-1">${entries.join('')}</div>`, 'output');
         },
         [cwd, addLine, setHoveredComponents]
     );

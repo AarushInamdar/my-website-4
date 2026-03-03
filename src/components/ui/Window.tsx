@@ -139,7 +139,7 @@ export default function Window({
           onMouseDown={handleDragStart}
         >
           {/* Traffic lights */}
-          <div className="flex items-center gap-1.5 mr-3">
+          <div className="flex items-center gap-1.5 mr-3 ml-2">
             <button
               onClick={(e) => { e.stopPropagation(); closeWindow(id); }}
               onMouseDown={(e) => e.stopPropagation()}

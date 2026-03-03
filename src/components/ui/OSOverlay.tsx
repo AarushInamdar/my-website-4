@@ -12,6 +12,14 @@ import SystemPreferences from './SystemPreferences';
 import LockScreen from './LockScreen';
 import AboutSystem from './AboutSystem';
 import GlobalSearch from './GlobalSearch';
+import CompanyPopup from './CompanyPopup';
+
+// Mock Application Components
+import AdobeApp from './AdobeApp';
+import AppleApp from './AppleApp';
+import TRL11App from './TRL11App';
+import SAPApp from './SAPApp';
+import SeriesApp from './SeriesApp';
 
 /* ─── Map window IDs to their content component ─── */
 function WindowContent({ id }: { id: string }) {
@@ -24,6 +32,16 @@ function WindowContent({ id }: { id: string }) {
       return <SystemPreferences />;
     case 'about':
       return <AboutSystem />;
+    case 'adobe':
+      return <AdobeApp />;
+    case 'apple':
+      return <AppleApp />;
+    case 'trl11':
+      return <TRL11App />;
+    case 'sap':
+      return <SAPApp />;
+    case 'series':
+      return <SeriesApp />;
     default:
       return (
         <div className="flex items-center justify-center h-full font-mono text-white/30 text-sm">
@@ -129,6 +147,11 @@ export default function OSOverlay() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* ─── Company Detail Popup ─── */}
+      <div className="pointer-events-auto">
+        <CompanyPopup />
+      </div>
     </div>
   );
 }

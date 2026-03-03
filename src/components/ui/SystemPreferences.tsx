@@ -154,7 +154,7 @@ export default function SystemPreferences() {
             onChange={(e) => setTerminalOpacity(Number(e.target.value) / 100)}
             className="w-full h-1 rounded-full appearance-none cursor-pointer"
             style={{
-              background: `linear-gradient(to right, rgba(0,245,255,0.5) ${terminalOpacity * 100}%, rgba(255,255,255,0.1) ${terminalOpacity * 100}%)`,
+              background: `linear-gradient(to right, rgba(0,245,255,0.5) ${((terminalOpacity * 100) - 40) * (100 / 60)}%, rgba(255,255,255,0.1) ${((terminalOpacity * 100) - 40) * (100 / 60)}%)`,
             }}
           />
         </div>

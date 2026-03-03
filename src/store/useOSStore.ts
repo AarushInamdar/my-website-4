@@ -19,6 +19,7 @@ interface OSState {
     bootProgress: number;
     focusedComponent: string | null;
     hoveredComponents: string[];
+    selectedCompany: string | null;
 
     // Actions
     boot: () => void;
@@ -32,6 +33,7 @@ interface OSState {
     minimizeWindow: (id: string) => void;
     setFocusedComponent: (name: string | null) => void;
     setHoveredComponents: (names: string[]) => void;
+    setSelectedCompany: (company: string | null) => void;
     isGenerating: boolean;
     setIsGenerating: (val: boolean) => void;
 
@@ -53,6 +55,7 @@ export const useOSStore = create<OSState>((set, get) => ({
     bootProgress: 0,
     focusedComponent: null,
     hoveredComponents: [],
+    selectedCompany: null,
     isGenerating: false,
 
     // System Preferences Default Values
@@ -126,8 +129,12 @@ export const useOSStore = create<OSState>((set, get) => ({
     setHoveredComponents: (names: string[]) =>
         set({ hoveredComponents: names }),
 
+    setSelectedCompany: (company: string | null) =>
+        set({ selectedCompany: company }),
+
     setIsGenerating: (val: boolean) => set({ isGenerating: val }),
 
+    // System Preferences actions
     setWallpaper: (val) => set({ wallpaper: val }),
     setDockMagnification: (val) => set({ dockMagnification: val }),
     setCrtEnabled: (val) => set({ crtEnabled: val }),

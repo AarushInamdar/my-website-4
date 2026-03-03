@@ -60,7 +60,13 @@ function CPU() {
   });
 
   return (
-    <group position={[0, 0.6, 0]} ref={meshRef}>
+    <group 
+      position={[0, 0.6, 0]} 
+      ref={meshRef}
+      onClick={(e) => { e.stopPropagation(); useOSStore.getState().setSelectedCompany('adobe'); }}
+      onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }}
+      onPointerOut={() => { document.body.style.cursor = 'auto'; }}
+    >
       {/* Base Socket */}
       <mesh position={[0, -0.1, 0]}>
         <boxGeometry args={[2.1, 0.15, 2.1]} />
@@ -112,7 +118,7 @@ function RAMStick({
   label: string;
 }) {
   return (
-    <group position={position}>
+    <group position={position} rotation={[0, -Math.PI / 2.5, 0]}>
       <RoundedBox args={[0.3, 1.4, 0.6]} radius={0.03} smoothness={4}>
         <meshStandardMaterial
           color="#111"
@@ -164,7 +170,12 @@ function GPU() {
   });
 
   return (
-    <group position={[-3.5, 0.6, 0]}>
+    <group 
+      position={[-3.5, 0.6, 0]}
+      onClick={(e) => { e.stopPropagation(); useOSStore.getState().setSelectedCompany('apple'); }}
+      onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }}
+      onPointerOut={() => { document.body.style.cursor = 'auto'; }}
+    >
       {/* Sleek Enclosure */}
       <RoundedBox args={[2.6, 0.5, 1.4]} radius={0.05} smoothness={4}>
         <meshStandardMaterial color="#0a0a0a" metalness={0.8} roughness={0.2} />
@@ -240,47 +251,46 @@ function PMU() {
   });
 
   return (
-    <group position={[2, 0.7, -2]}>
-      {/* Glass Outer Shell */}
-      <mesh>
-        <sphereGeometry args={[0.45, 32, 32]} />
-        <MeshTransmissionMaterial 
-          color="#fff" 
-          transmission={0.95} 
-          roughness={0.1} 
-          thickness={0.5} 
-          ior={1.2} 
-        />
-      </mesh>
-
+    <group 
+      position={[2, 0.7, -2]}
+      onClick={(e) => { e.stopPropagation(); useOSStore.getState().setSelectedCompany('trl11'); }}
+      onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }}
+      onPointerOut={() => { document.body.style.cursor = 'auto'; }}
+    >
       {/* Outer Rotating Ring */}
       <mesh ref={outerRingRef}>
         <torusGeometry args={[0.55, 0.02, 16, 64]} />
-        <meshStandardMaterial color="#222" metalness={0.9} roughness={0.1} />
+        <meshStandardMaterial color="#FFD700" metalness={1} roughness={0.2} />
       </mesh>
 
       {/* Inner Rotating Ring */}
       <mesh ref={innerRingRef} rotation={[Math.PI / 4, 0, 0]}>
         <torusGeometry args={[0.35, 0.03, 16, 64]} />
-        <meshStandardMaterial color="#FFAA00" emissive="#FFAA00" emissiveIntensity={0.4} />
+        <meshStandardMaterial color="#FFD700" metalness={1} roughness={0.2} />
       </mesh>
 
       {/* Glowing Core */}
       <mesh ref={coreRef}>
         <icosahedronGeometry args={[0.15, 1]} />
-        <meshStandardMaterial color="#FFAA00" emissive="#FFAA00" emissiveIntensity={0.8} />
+        <meshStandardMaterial color="#FF0000" emissive="#FF0000" emissiveIntensity={0.8} />
       </mesh>
 
       {/* Label */}
-      <Text
-        position={[0, -0.65, 0]}
-        fontSize={0.1}
-        color="#FFAA00"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {'PMU // TRL11'}
-      </Text>
+      <group position={[0, 1.5, 0]}>
+        <mesh position={[0, 0, -0.01]}>
+          <planeGeometry args={[1.5, 0.2]} />
+          <meshBasicMaterial color="#0A0A0A" transparent opacity={0.6} depthTest={false} />
+        </mesh>
+        <Text
+          fontSize={0.1}
+          color="#FFAA00"
+          anchorX="center"
+          anchorY="middle"
+          material-depthTest={false}
+        >
+          {'PMU // TRL11'}
+        </Text>
+      </group>
     </group>
   );
 }
@@ -304,7 +314,13 @@ function SAPBridge() {
   ];
 
   return (
-    <group position={[-2, 0.45, 2]} ref={groupRef}>
+    <group 
+      position={[-2, 0.45, 2]} 
+      ref={groupRef}
+      onClick={(e) => { e.stopPropagation(); useOSStore.getState().setSelectedCompany('sap'); }}
+      onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }}
+      onPointerOut={() => { document.body.style.cursor = 'auto'; }}
+    >
       {/* Data tiers */}
       {layers.map((layer, i) => (
         <mesh key={`sap-layer-${i}`} position={[0, layer.yOffset, 0]}>
@@ -326,15 +342,88 @@ function SAPBridge() {
       </mesh>
       
       {/* Label */}
-      <Text
-        position={[0, 0.7, 0]}
-        fontSize={0.09}
-        color="#008FD3"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {'SAP // Data Bus'}
-      </Text>
+      <group position={[0, 0.7, 0]}>
+        <mesh position={[0, 0, -0.01]}>
+          <planeGeometry args={[1.5, 0.2]} />
+          <meshBasicMaterial color="#0A0A0A" transparent opacity={0.6} depthTest={false} />
+        </mesh>
+        <Text
+          fontSize={0.09}
+          color="#008FD3"
+          anchorX="center"
+          anchorY="middle"
+          material-depthTest={false}
+        >
+          {'SAP // Data Bus'}
+        </Text>
+      </group>
+    </group>
+  );
+}
+
+/* ─── Neural Processing Unit — Series.so ─── */
+function SeriesNPU() {
+  const groupRef = useRef<THREE.Group>(null);
+  const isHovered = useOSStore((s) => s.hoveredComponents.includes('series'));
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.position.y = 0.6 + Math.sin(state.clock.elapsedTime * 2) * 0.05;
+      groupRef.current.rotation.y += delta * 0.2;
+    }
+  });
+
+  return (
+    <group 
+      position={[1.5, 0.6, 2.5]} 
+      ref={groupRef}
+      onClick={(e) => { e.stopPropagation(); useOSStore.getState().setSelectedCompany('series'); }}
+      onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }}
+      onPointerOut={() => { document.body.style.cursor = 'auto'; }}
+    >
+      {/* Matte Black Base Casing */}
+      <mesh position={[0, -0.2, 0]}>
+        <boxGeometry args={[0.8, 0.1, 0.8]} />
+        <meshStandardMaterial color="#0A0A0A" roughness={0.9} />
+      </mesh>
+
+      {/* Internal Neural Cluster (White) */}
+      <group position={[0, 0.1, 0]}>
+        {[...Array(12)].map((_, i) => (
+          <mesh 
+            key={`node-${i}`} 
+            position={[
+              (Math.random() - 0.5) * 0.5,
+              (Math.random() - 0.5) * 0.5,
+              (Math.random() - 0.5) * 0.5
+            ]}
+          >
+            <boxGeometry args={[0.08, 0.08, 0.08]} />
+            <meshStandardMaterial 
+              color="#FFFFFF" 
+              emissive="#FFFFFF" 
+              emissiveIntensity={isHovered ? 2.5 : 1} 
+            />
+          </mesh>
+        ))}
+      </group>
+
+      {/* Label */}
+      <group position={[0, 0.6, 0]}>
+        <mesh position={[0, 0, -0.01]}>
+          <planeGeometry args={[1.5, 0.2]} />
+          <meshBasicMaterial color="#0A0A0A" transparent opacity={0.6} depthTest={false} />
+        </mesh>
+        <Text
+          fontSize={0.08}
+          color="#FFFFFF"
+          anchorX="center"
+          anchorY="middle"
+          material-depthTest={false}
+        >
+          {'NPU // Series.so'}
+        </Text>
+      </group>
     </group>
   );
 }
@@ -396,9 +485,10 @@ export default function Motherboard() {
           <GPU />
           <PMU />
           <SAPBridge />
-          <RAMStick position={[3, 0.8, -0.8]} label="MEM_0: CS" />
-          <RAMStick position={[3, 0.8, 0]} label="MEM_1: BizAdmin" />
-          <RAMStick position={[3, 0.8, 0.8]} label="MEM_2: SwiftUI" />
+          <SeriesNPU />
+          <RAMStick position={[3, 0.8, -0.8]} label="MEM_0: Computer Science" />
+          <RAMStick position={[3, 0.8, 0]} label="MEM_1: Business Admin" />
+          <RAMStick position={[3, 0.8, 0.8]} label="MEM_2: LeetCode" />
 
           {/* ─── Neon Tracers — data paths ─── */}
           {/* CPU → GPU */}
@@ -461,6 +551,17 @@ export default function Motherboard() {
             ]}
             color="#008FD3"
             speed={0.45}
+          />
+          {/* CPU → Series NPU (fuchsia data path) */}
+          <NeonTracer
+            points={[
+              [0.5, 0.3, 0.5],
+              [1.0, 0.25, 1.5],
+              [1.2, 0.2, 2.0],
+              [1.5, 0.2, 2.5],
+            ]}
+            color="#ff00ff"
+            speed={0.6}
           />
         </group>
     </Float>

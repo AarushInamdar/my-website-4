@@ -130,9 +130,8 @@ function DockIcon({
         }}
       >
         <span
-          className="font-bold select-none leading-none text-center relative z-10"
+          className="text-white font-bold select-none leading-none text-center relative z-10 drop-shadow-md"
           style={{
-            color: item.color,
             fontSize: '0.45em',
             textShadow: `0 0 12px ${item.glowColor || item.color}`,
             letterSpacing: '0.02em',

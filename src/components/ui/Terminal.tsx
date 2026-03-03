@@ -132,11 +132,13 @@ export default function Terminal() {
       {/* ─── Output Area ─── */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-3 space-y-0.5" style={{ scrollbarWidth: 'none' }}>
         {history.map((line) => (
-          <div key={line.id} className={`${getLineColor(line)} leading-relaxed whitespace-pre-wrap break-all`}>
+          <div key={line.id} className={`${getLineColor(line)} leading-relaxed break-all`}>
             {line.typewriter ? (
               <TypewriterLine text={line.text} />
+            ) : line.text.includes('<span') || line.text.includes('<div') ? (
+              <span dangerouslySetInnerHTML={{ __html: line.text }} />
             ) : (
-              line.text
+              <span className="whitespace-pre-wrap">{line.text}</span>
             )}
           </div>
         ))}

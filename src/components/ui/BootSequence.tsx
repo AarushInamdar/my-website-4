@@ -5,20 +5,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useOSStore } from '@/store/useOSStore';
 
 const BOOT_LOGS = [
-  { text: 'POST: Power-On Self-Test — OK', delay: 200 },
-  { text: 'BIOS v4.2.1 — Aarush.Kernel initialized', delay: 400 },
-  { text: '──────────────────────────────────────', delay: 100 },
-  { text: '[OK] Initializing Dual Degree: CS & Business Admin...', delay: 500 },
-  { text: '[OK] Allocating Memory: Data Structures, Algorithms, OS Theory...', delay: 400 },
-  { text: '[OK] Loading Adobe Graphics Engine (C++ / TRL11)...', delay: 600 },
-  { text: '[OK] Configuring Performance Pipeline: 40% latency reduction achieved', delay: 500 },
-  { text: '[OK] Mounting Apple Geofencing Module (SwiftUI / CoreLocation)...', delay: 550 },
-  { text: '[OK] Compiling React Frontend Service (Next.js / TypeScript)...', delay: 450 },
-  { text: '[OK] Connecting Series.so Neural Engine (FastAPI / Gemini API)...', delay: 500 },
-  { text: '[OK] Initializing RAG Pipeline: 92% retrieval accuracy...', delay: 400 },
-  { text: '──────────────────────────────────────', delay: 100 },
-  { text: '[OK] All system modules loaded successfully.', delay: 300 },
-  { text: '[OK] Kernel Online. Welcome, Aarush.', delay: 600 },
+  { text: 'POST: Power-On Self-Test — OK', delay: 120 },
+  { text: 'BIOS v4.2.1 — Aarush.Kernel initialized', delay: 240 },
+  { text: '──────────────────────────────────────', delay: 60 },
+  { text: '[OK] Initializing Dual Degree: CS & Business Admin...', delay: 300 },
+  { text: '[OK] Allocating Memory: Data Structures, Algorithms, OS Theory...', delay: 240 },
+  { text: '[OK] Loading Adobe Graphics Engine (C++ / TRL11)...', delay: 360 },
+  { text: '[OK] Configuring Performance Pipeline: 40% latency reduction achieved', delay: 300 },
+  { text: '[OK] Mounting Apple Geofencing Module (SwiftUI / CoreLocation)...', delay: 330 },
+  { text: '[OK] Compiling React Frontend Service (Next.js / TypeScript)...', delay: 270 },
+  { text: '[OK] Connecting Series.so Neural Engine (FastAPI / Gemini API)...', delay: 300 },
+  { text: '[OK] Initializing RAG Pipeline: 92% retrieval accuracy...', delay: 240 },
+  { text: '──────────────────────────────────────', delay: 60 },
+  { text: '[OK] All system modules loaded successfully.', delay: 180 },
+  { text: '[OK] Kernel Online. Welcome, Aarush.', delay: 360 },
 ];
 
 export default function BootSequence() {
@@ -35,8 +35,8 @@ export default function BootSequence() {
         // All lines shown, wait then transition
         timeout = setTimeout(() => {
           setIsComplete(true);
-          setTimeout(() => boot(), 800);
-        }, 1000);
+          setTimeout(() => boot(), 480);
+        }, 600);
         return;
       }
 
@@ -47,7 +47,7 @@ export default function BootSequence() {
     };
 
     // Start after a brief initial delay
-    timeout = setTimeout(() => showNextLine(0), 500);
+    timeout = setTimeout(() => showNextLine(0), 300);
 
     return () => clearTimeout(timeout);
   }, [boot]);

@@ -58,7 +58,7 @@ export default function CompanyPopup() {
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative max-w-xl w-full mx-4 p-8 md:p-12 rounded-2xl border border-white/10 bg-black/80 overflow-hidden shadow-2xl"
+          className="relative max-w-2xl w-full mx-4 mb-8 p-12 md:p-16 rounded-2xl border border-white/10 bg-black/80 overflow-hidden shadow-2xl flex flex-col items-center"
           onClick={e => e.stopPropagation()}
           style={{
             boxShadow: `0 0 50px ${content.color}33, inset 0 0 20px ${content.color}22`
@@ -99,25 +99,18 @@ export default function CompanyPopup() {
             </h2>
             <div className="w-16 h-1 rounded-full mb-4" style={{ backgroundColor: content.color, boxShadow: `0 0 10px ${content.glow}` }} />
             
-            <p className="text-white/90 text-lg md:text-xl leading-relaxed font-mono">
+            <p className="text-white/90 text-lg md:text-xl leading-relaxed font-mono mt-4 px-6 md:px-12">
               <span className="text-neon-cyan mr-3 opacity-70">&gt;</span>
               {content.text}
               <span className="animate-cursor-blink ml-1 text-neon-cyan opacity-70">_</span>
             </p>
           </div>
-          
-          {/* Close hint */}
-          <div className="absolute bottom-4 left-0 right-0 text-center text-[10px] text-white/30 uppercase tracking-widest pointer-events-none">
-            Click anywhere to close
-          </div>
-
-          <button 
-            onClick={() => setSelectedCompany(null)}
-            className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
-          >
-            ✕
-          </button>
         </motion.div>
+
+        {/* Close hint (Moved outside modal box) */}
+        <div className="absolute bottom-10 left-0 right-0 text-center text-[10px] text-white/50 uppercase tracking-widest pointer-events-none">
+          Click anywhere to close
+        </div>
       </motion.div>
     </AnimatePresence>
   );

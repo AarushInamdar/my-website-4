@@ -48,7 +48,6 @@ SAP SE — Software Engineer
 CheckSplit — Intelligent Bill-Splitting iOS App
 - SwiftUI, CoreML, Vision, CoreData
 - OCR receipt scanning, CoreML line-item classification (94% accuracy)
-- Accepted into UC Irvine ANTrepreneur Center incubator
 
 NetAudit — Web Accessibility Compliance Auditor
 - Next.js, TypeScript, Go, SQLite

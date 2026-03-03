@@ -164,8 +164,7 @@ export default function Window({
           </div>
 
           {/* Title */}
-          <div className="flex-1 text-center text-[11px] font-mono text-white/50 tracking-wider truncate">
-            <span className="text-white/30 mr-1">{icon}</span>
+          <div className="flex-1 text-center text-[11px] font-bold text-white/50 tracking-wider truncate">
             {title}
           </div>
 

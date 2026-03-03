@@ -80,21 +80,7 @@ export default function TopMenuBar() {
               transition={{ duration: 0.15, ease: 'easeOut' }}
               id="kernel-dropdown"
             >
-              <DropdownItem
-                label="About This System"
-                onClick={() => {
-                  useOSStore.getState().openWindow({
-                    id: 'about',
-                    title: 'About This System',
-                    icon: 'ℹ️',
-                    isMinimized: false,
-                    position: { x: window.innerWidth / 2 - 175, y: window.innerHeight / 2 - 250 },
-                    size: { width: 350, height: 500 },
-                  });
-                  setIsDropdownOpen(false);
-                }}
-              />
-              <div className="h-px bg-glass-border my-1" />
+
               <DropdownItem
                 label="System Preferences..."
                 onClick={() => {
@@ -125,6 +111,24 @@ export default function TopMenuBar() {
 
       {/* ─── Right: Status Icons ─── */}
       <div className="flex items-center gap-3 text-xs font-mono text-white/70">
+        {/* System Info Button */}
+        <button
+          onClick={() => {
+            useOSStore.getState().openWindow({
+              id: 'about',
+              title: 'About This System',
+              icon: 'ℹ️',
+              isMinimized: false,
+              position: { x: window.innerWidth / 2 - 175, y: window.innerHeight / 2 - 250 },
+              size: { width: 350, height: 500 },
+            });
+          }}
+          className="mr-1 w-5 h-5 flex items-center justify-center rounded-xl bg-white/10 text-white hover:bg-neon-cyan/20 hover:text-neon-cyan transition-colors"
+          title="About This System"
+        >
+          ℹ
+        </button>
+
         {/* Reset View Button */}
         <button
           onClick={resetCamera}

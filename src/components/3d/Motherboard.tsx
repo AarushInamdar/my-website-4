@@ -369,7 +369,6 @@ function SeriesNPU() {
   useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.position.y = 0.6 + Math.sin(state.clock.elapsedTime * 2) * 0.05;
-      groupRef.current.rotation.y += delta * 0.2;
     }
   });
 

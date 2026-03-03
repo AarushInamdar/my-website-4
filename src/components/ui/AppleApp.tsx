@@ -109,7 +109,7 @@ export default function AppleApp() {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={`p-3 rounded-xl border border-white/10 shadow-sm text-xs font-medium text-white/90 ${snapshot.isDragging ? 'bg-white/20 scale-105' : 'bg-white/[0.05] hover:bg-white/[0.1] transition-colors'}`}
+                              className={`p-3 rounded-xl border border-white/10 text-xs font-medium text-white/90 ${snapshot.isDragging ? 'bg-white/20 shadow-lg shadow-white/10 z-50' : 'bg-white/[0.05] hover:bg-white/[0.1] shadow-sm transition-colors'}`}
                               style={{
                                 ...provided.draggableProps.style,
                               }}

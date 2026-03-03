@@ -48,7 +48,7 @@ export default function AppWrapper({
 
       {/* ─── Scrollable Content Area ─── */}
       <div 
-        className="flex-1 overflow-y-auto overflow-x-hidden relative"
+        className="flex-1 overflow-y-auto overflow-x-hidden relative px-4 md:px-6 pb-6 pt-4"
         style={{ scrollbarWidth: 'none' }}
       >
         {children}

@@ -180,8 +180,7 @@ dining companions.
 │  Pipeline    │   │  Classifier  │   │  Views     │
 └─────────────┘   └──────────────┘   └────────────┘
 \`\`\`
-
-> Accepted into UC Irvine ANTrepreneur Center incubator.`,
+`,
                                 },
                             },
                         },

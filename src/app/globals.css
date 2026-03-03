@@ -18,7 +18,6 @@
   --font-mono: var(--font-jetbrains), "JetBrains Mono", monospace;
 
   --animate-cursor-blink: cursor-blink 1s step-end infinite;
-  --animate-glow-pulse: glow-pulse 2s ease-in-out infinite;
   --animate-scanline: scanline 4s linear infinite;
 
   @keyframes cursor-blink {
@@ -31,20 +30,6 @@
     51%,
     100% {
       opacity: 0;
-    }
-  }
-
-  @keyframes glow-pulse {
-
-    0%,
-    100% {
-      opacity: 0.4;
-      box-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
-    }
-
-    50% {
-      opacity: 1;
-      box-shadow: 0 0 20px rgba(0, 245, 255, 0.8);
     }
   }
 

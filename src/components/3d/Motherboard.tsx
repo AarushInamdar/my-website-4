@@ -113,30 +113,34 @@ function CPU() {
 function RAMStick({
   position,
   label,
+  color,
 }: {
   position: [number, number, number];
   label: string;
+  color: string;
 }) {
+  // Derive a slightly darkened body color from the emissive accent
   return (
     <group position={position} rotation={[0, -Math.PI / 2.5, 0]}>
       <RoundedBox args={[0.3, 1.4, 0.6]} radius={0.03} smoothness={4}>
         <meshStandardMaterial
-          color="#111"
-          emissive="#00F5FF"
-          emissiveIntensity={0.15}
+          color="#0d0d0d"
+          emissive={color}
+          emissiveIntensity={0.22}
           metalness={0.7}
-          roughness={0.4}
+          roughness={0.35}
         />
       </RoundedBox>
-      {/* Chip modules on RAM */}
+      {/* RGB glow strip along top edge */}
+      <mesh position={[0, 0.68, 0]}>
+        <boxGeometry args={[0.28, 0.04, 0.58]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.4} />
+      </mesh>
+      {/* Chip modules */}
       {[...Array(4)].map((_, i) => (
         <mesh key={`chip-${i}`} position={[0.16, -0.4 + i * 0.28, 0]}>
           <boxGeometry args={[0.02, 0.2, 0.4]} />
-          <meshStandardMaterial
-            color="#0a0a0a"
-            emissive="#00F5FF"
-            emissiveIntensity={0.08}
-          />
+          <meshStandardMaterial color="#0d0d0d" emissive={color} emissiveIntensity={0.2} />
         </mesh>
       ))}
       {/* Label */}
@@ -144,7 +148,7 @@ function RAMStick({
         position={[0.17, 0.5, 0]}
         rotation={[0, Math.PI / 2, 0]}
         fontSize={0.08}
-        color="#00F5FF"
+        color={color}
         anchorX="center"
         anchorY="middle"
       >
@@ -154,79 +158,186 @@ function RAMStick({
   );
 }
 
-/* ─── GPU Block ─── */
+/* ─── GPU Block — Triple-Fan Graphics Card (Apple Color Scheme) ─── */
 function GPU() {
   const fan1Ref = useRef<THREE.Group>(null);
   const fan2Ref = useRef<THREE.Group>(null);
+  const fan3Ref = useRef<THREE.Group>(null);
 
-  useFrame((state, delta) => {
-    // Transient subscription to skip re-renders
+  useFrame((_state, delta) => {
     const isGenerating = useOSStore.getState().isGenerating;
-    // Lerp fan speed based on activity
-    const targetSpeed = isGenerating ? 25 : 3; 
-    
-    if (fan1Ref.current) fan1Ref.current.rotation.y += delta * targetSpeed;
-    if (fan2Ref.current) fan2Ref.current.rotation.y += delta * targetSpeed;
+    const speed = isGenerating ? 20 : 2.8;
+    if (fan1Ref.current) fan1Ref.current.rotation.y += delta * speed;
+    if (fan2Ref.current) fan2Ref.current.rotation.y += delta * speed;
+    if (fan3Ref.current) fan3Ref.current.rotation.y += delta * speed;
   });
 
+  const fanRefs = [fan1Ref, fan2Ref, fan3Ref];
+
   return (
-    <group 
-      position={[-3.5, 0.6, 0]}
+    <group
+      position={[-3.5, 0.55, 0]}
       onClick={(e) => { e.stopPropagation(); useOSStore.getState().setSelectedCompany('apple'); }}
       onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }}
       onPointerOut={() => { document.body.style.cursor = 'auto'; }}
     >
-      {/* Sleek Enclosure */}
-      <RoundedBox args={[2.6, 0.5, 1.4]} radius={0.05} smoothness={4}>
-        <meshStandardMaterial color="#0a0a0a" metalness={0.8} roughness={0.2} />
-      </RoundedBox>
-      
-      {/* Side Vent Detailing */}
-      <mesh position={[0, 0.28, 0]}>
-        <boxGeometry args={[2.5, 0.06, 1.3]} />
-        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.15} />
+      {/* ── Apple Silver backplate (bottom face) ── */}
+      <mesh position={[0, -0.35, 0]}>
+        <boxGeometry args={[2.92, 0.06, 1.68]} />
+        <meshStandardMaterial color="#e3e3e8" metalness={0.94} roughness={0.06} />
+      </mesh>
+      {/* Backplate inset panel */}
+      <mesh position={[0.3, -0.32, 0]}>
+        <boxGeometry args={[0.7, 0.01, 0.5]} />
+        <meshStandardMaterial color="#c8c8cc" metalness={0.88} roughness={0.12} />
       </mesh>
 
-      {/* Dual Rotating Fans */}
-      {[-0.6, 0.6].map((xOffset, index) => (
-        <group key={`fan-group-${index}`} position={[xOffset, 0.26, 0]}>
-          {/* Fan chassis cutout */}
-          <mesh rotation={[-Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.45, 0.45, 0.05, 32]} />
-            <meshStandardMaterial color="#000" />
+      {/* ── PCB substrate ── */}
+      <mesh position={[0, -0.27, 0]}>
+        <boxGeometry args={[2.9, 0.08, 1.65]} />
+        <meshStandardMaterial color="#0c1a0c" metalness={0.25} roughness={0.8} />
+      </mesh>
+
+      {/* ── Main shroud — Apple Space Gray ── */}
+      <RoundedBox args={[2.8, 0.58, 1.55]} radius={0.035} smoothness={5} position={[0, 0.02, 0]}>
+        <meshStandardMaterial color="#1d1d1f" metalness={0.88} roughness={0.16} />
+      </RoundedBox>
+
+      {/* ── Top face plate — slightly lighter Space Gray ── */}
+      <mesh position={[0, 0.315, 0]}>
+        <boxGeometry args={[2.78, 0.014, 1.53]} />
+        <meshStandardMaterial color="#2c2c2e" metalness={0.86} roughness={0.2} />
+      </mesh>
+
+      {/* ── Apple-white glowing accent bar — full width, back edge ── */}
+      <mesh position={[0, 0.305, -0.62]}>
+        <boxGeometry args={[2.72, 0.038, 0.055]} />
+        <meshStandardMaterial color="#f5f5f7" emissive="#ffffff" emissiveIntensity={0.7} metalness={0.92} roughness={0.04} />
+      </mesh>
+      {/* Secondary accent bar — front edge, subtler */}
+      <mesh position={[0, 0.305, 0.62]}>
+        <boxGeometry args={[2.72, 0.02, 0.03]} />
+        <meshStandardMaterial color="#f5f5f7" emissive="#ffffff" emissiveIntensity={0.3} metalness={0.92} roughness={0.04} />
+      </mesh>
+
+      {/* ── Silver heat fins visible between the fans ── */}
+      {Array.from({ length: 14 }).map((_, i) => (
+        <mesh key={`fin-${i}`} position={[-0.3 + i * 0.045, 0.325, 0]}>
+          <boxGeometry args={[0.022, 0.035, 1.5]} />
+          <meshStandardMaterial color="#3a3a3c" metalness={0.88} roughness={0.22} />
+        </mesh>
+      ))}
+
+      {/* ── 4 polished silver heat pipes (Apple uses silver, not copper) ── */}
+      {[-0.3, -0.1, 0.1, 0.3].map((z, i) => (
+        <mesh key={`pipe-${i}`} position={[0, 0.26, z]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.021, 0.021, 2.75, 10]} />
+          <meshStandardMaterial color="#8e8e93" metalness={0.98} roughness={0.04} />
+        </mesh>
+      ))}
+
+      {/* ── Triple recessed fan housings ── */}
+      {([-0.92, 0, 0.92] as number[]).map((xOff, idx) => (
+        <group key={`fan-${idx}`} position={[xOff, 0.3, 0]}>
+
+          {/* Outer bezel ring — torusGeometry defaults to XY plane,
+              rotate [PI/2,0,0] tilts it flat (XZ plane) so it's a circle from above */}
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.41, 0.048, 12, 48]} />
+            <meshStandardMaterial color="#3a3a3c" metalness={0.96} roughness={0.08} />
           </mesh>
-          {/* Fan blades */}
-          <group ref={index === 0 ? fan1Ref : fan2Ref}>
-            {Array.from({ length: 7 }).map((_, i) => (
-              <mesh key={`blade-${i}`} rotation={[0, (i * Math.PI * 2) / 7, 0]} position={[0, 0.02, 0]}>
-                <boxGeometry args={[0.08, 0.02, 0.8]} />
-                <MeshTransmissionMaterial 
-                  color="#fff" 
-                  transmission={0.9} 
-                  opacity={1} 
-                  roughness={0.1} 
-                  ior={1.5} 
-                  thickness={0.05} 
-                  transparent
-                />
+
+          {/* Dark recess disc — cylinderGeometry axis is Y by default,
+              NO rotation needed: cap faces up, visible as circle from above */}
+          <mesh position={[0, -0.018, 0]}>
+            <cylinderGeometry args={[0.358, 0.358, 0.032, 48]} />
+            <meshStandardMaterial color="#000000" metalness={0.1} roughness={0.9} />
+          </mesh>
+
+          {/* ── Spinning blades group ── */}
+          <group ref={fanRefs[idx]} position={[0, 0.008, 0]}>
+            {/*
+             * BLADE MATH:
+             *   position={[0, 0, 0.19]}  → blade offset along its own local Z axis only.
+             *                               After the Y rotation below, this Z offset becomes
+             *                               the radial distance, placing the blade midpoint at
+             *                               r ≈ 0.19·cos(0.36) ≈ 0.178 from the fan axis.
+             *                               Span 0.38 means inner tip ≈ at hub, outer tip ≈ at bezel.
+             *
+             *   rotation={[pitchAngle, (2π/N)·i, 0]}  (Euler XYZ order)
+             *     X = 0.36 rad (~21°) → aerodynamic pitch: tilts the blade's length axis
+             *                           upward so it has real 3D depth, not a flat 2D disc.
+             *     Y = evenly-spaced angle → distributes all N blades around the Y (fan) axis.
+             *     Z = 0
+             *
+             *   The group itself is spun by useFrame via rotation.y, which rotates all
+             *   blades as one unit around the same Y axis.
+             */}
+            {Array.from({ length: 7 }).map((_, bi) => (
+              <mesh
+                key={`blade-${bi}`}
+                position={[0, 0, 0.19]}
+                rotation={[0.36, (bi / 7) * Math.PI * 2, 0]}
+              >
+                <boxGeometry args={[0.06, 0.01, 0.35]} />
+                <meshStandardMaterial color="#1a1a1a" roughness={0.6} metalness={0.5} />
               </mesh>
             ))}
+
+            {/* Rotor hub — cylinderGeometry axis is Y by default, no rotation needed */}
+            <mesh>
+              <cylinderGeometry args={[0.08, 0.08, 0.05, 32]} />
+              <meshStandardMaterial color="#1a1a1a" roughness={0.6} metalness={0.5} />
+            </mesh>
           </group>
         </group>
       ))}
 
-      {/* Label */}
-      <group position={[0, 0.45, 0.5]}>
-        <mesh position={[0, 0, -0.01]}>
-          <planeGeometry args={[1.0, 0.2]} />
-          <meshBasicMaterial color="#0A0A0A" transparent opacity={0.6} />
+      {/* ── I/O Bracket — Apple Silver aluminum ── */}
+      <mesh position={[-1.38, -0.06, 0]}>
+        <boxGeometry args={[0.04, 0.3, 1.42]} />
+        <meshStandardMaterial color="#d1d1d6" metalness={0.9} roughness={0.15} />
+      </mesh>
+      {/* Display port cutouts */}
+      {([-0.45, -0.18, 0.09, 0.36] as number[]).map((z, i) => (
+        <mesh key={`port-${i}`} position={[-1.4, -0.06, z]}>
+          <boxGeometry args={[0.03, 0.14, 0.14]} />
+          <meshStandardMaterial color="#080808" />
         </mesh>
-        <Text
-          fontSize={0.1}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-        >
+      ))}
+      {/* Bracket screw holes — cylinderGeometry, rotation Z=PI/2 makes axis horizontal ✓ */}
+      {([-0.6, 0.6] as number[]).map((z, i) => (
+        <mesh key={`screw-${i}`} position={[-1.4, 0.06, z]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.038, 0.038, 0.04, 10]} />
+          <meshStandardMaterial color="#aeaeb2" metalness={0.92} roughness={0.18} />
+        </mesh>
+      ))}
+
+      {/* ── Right end cap — Space Gray ── */}
+      <mesh position={[1.42, 0.02, 0]}>
+        <boxGeometry args={[0.04, 0.56, 1.53]} />
+        <meshStandardMaterial color="#2c2c2e" metalness={0.82} roughness={0.28} />
+      </mesh>
+      {/* Power connector housing */}
+      <mesh position={[1.32, 0.22, -0.3]}>
+        <boxGeometry args={[0.18, 0.1, 0.55]} />
+        <meshStandardMaterial color="#1d1d1f" metalness={0.65} roughness={0.45} />
+      </mesh>
+      {/* Connector pins — brushed silver */}
+      {Array.from({ length: 4 }).map((_, i) => (
+        <mesh key={`pin-${i}`} position={[1.32, 0.33, -0.44 + i * 0.13]}>
+          <cylinderGeometry args={[0.017, 0.017, 0.12, 8]} />
+          <meshStandardMaterial color="#aeaeb2" metalness={0.95} roughness={0.06} />
+        </mesh>
+      ))}
+
+      {/* ── Label ── */}
+      <group position={[0, 0.72, 0.62]}>
+        <mesh position={[0, 0, -0.01]}>
+          <planeGeometry args={[1.1, 0.18]} />
+          <meshBasicMaterial color="#0A0A0A" transparent opacity={0.55} depthTest={false} />
+        </mesh>
+        <Text fontSize={0.095} color="#f5f5f7" anchorX="center" anchorY="middle" material-depthTest={false}>
           {'GPU // Apple'}
         </Text>
       </group>
@@ -276,7 +387,7 @@ function PMU() {
       </mesh>
 
       {/* Label */}
-      <group position={[0, 1.5, 0]}>
+      <group position={[0, 0.75, 0]}>
         <mesh position={[0, 0, -0.01]}>
           <planeGeometry args={[1.5, 0.2]} />
           <meshBasicMaterial color="#0A0A0A" transparent opacity={0.6} depthTest={false} />
@@ -295,54 +406,114 @@ function PMU() {
   );
 }
 
-/* ─── Enterprise Bridge — SAP SE ─── */
+
+/* ─── Enterprise Server Blade — SAP SE ─── */
 function SAPBridge() {
-  const groupRef = useRef<THREE.Group>(null);
   const isHovered = useOSStore((s) => s.hoveredComponents.includes('sap'));
 
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.position.y = 0.45 + Math.sin(state.clock.elapsedTime) * 0.05;
-    }
-  });
-
-  const layers = [
-    { width: 1.8, depth: 1.0, yOffset: 0, opacity: 0.9 },
-    { width: 1.5, depth: 0.8, yOffset: 0.15, opacity: 0.7 },
-    { width: 1.2, depth: 0.6, yOffset: 0.3, opacity: 0.5 },
-    { width: 0.9, depth: 0.4, yOffset: 0.45, opacity: 0.3 },
-  ];
-
   return (
-    <group 
-      position={[-2, 0.45, 2]} 
-      ref={groupRef}
+    <group
+      position={[-2, 0.45, 2]}
       onClick={(e) => { e.stopPropagation(); useOSStore.getState().setSelectedCompany('sap'); }}
       onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }}
       onPointerOut={() => { document.body.style.cursor = 'auto'; }}
     >
-      {/* Data tiers */}
-      {layers.map((layer, i) => (
-        <mesh key={`sap-layer-${i}`} position={[0, layer.yOffset, 0]}>
-          <boxGeometry args={[layer.width, 0.1, layer.depth]} />
+      {/* ── Main server chassis — SAP light blue body ── */}
+      <mesh position={[0, 0, 0]}>
+        <boxGeometry args={[1.85, 0.52, 1.05]} />
+        <meshStandardMaterial color="#1a9fd4" metalness={0.45} roughness={0.42} />
+      </mesh>
+
+      {/* Front face panel — white bezel (secondary color) */}
+      <mesh position={[0, 0, 0.53]}>
+        <boxGeometry args={[1.83, 0.5, 0.02]} />
+        <meshStandardMaterial color="#f0f4f8" metalness={0.35} roughness={0.35} />
+      </mesh>
+
+      {/* Drive bay slots — opaque SAP blue panels, no transparency */}
+      {([-0.54, 0, 0.54] as number[]).flatMap((x, ci) =>
+        ([0.06, -0.14] as number[]).map((y, ri) => (
+          <mesh key={`bay-${ci}-${ri}`} position={[x, y, 0.545]}>
+            <boxGeometry args={[0.44, 0.135, 0.018]} />
+            <meshStandardMaterial
+              color="#008FD3"
+              emissive="#008FD3"
+              emissiveIntensity={isHovered ? 0.55 : 0.18}
+              metalness={0.5}
+              roughness={0.25}
+            />
+          </mesh>
+        ))
+      )}
+      {/* Drive bay border frames — white */}
+      {([-0.54, 0, 0.54] as number[]).flatMap((x, ci) =>
+        ([0.06, -0.14] as number[]).map((y, ri) => (
+          <mesh key={`bayframe-${ci}-${ri}`} position={[x, y, 0.542]}>
+            <boxGeometry args={[0.48, 0.17, 0.014]} />
+            <meshStandardMaterial color="#d8e8f2" metalness={0.4} roughness={0.4} />
+          </mesh>
+        ))
+      )}
+
+      {/* LED status strip — bright SAP blue at top */}
+      <mesh position={[0, 0.232, 0.535]}>
+        <boxGeometry args={[1.65, 0.026, 0.014]} />
+        <meshStandardMaterial
+          color="#00b4ff"
+          emissive="#00b4ff"
+          emissiveIntensity={isHovered ? 3.2 : 1.5}
+        />
+      </mesh>
+
+      {/* Individual LED indicators — bottom row */}
+      {Array.from({ length: 8 }).map((_, i) => (
+        <mesh key={`led-${i}`} position={[-0.72 + i * 0.205, -0.228, 0.535]}>
+          <boxGeometry args={[0.065, 0.028, 0.01]} />
           <meshStandardMaterial
-            color="#111"
-            emissive="#008FD3"
-            emissiveIntensity={isHovered ? 0.8 : 0.3}
-            transparent
-            opacity={layer.opacity}
-            metalness={0.5}
-            roughness={0.1}
+            color={i % 3 === 0 ? '#00e887' : '#00b4ff'}
+            emissive={i % 3 === 0 ? '#00e887' : '#00b4ff'}
+            emissiveIntensity={2.0}
           />
         </mesh>
       ))}
-      <mesh position={[0, 0.22, 0]}>
-        <cylinderGeometry args={[0.1, 0.1, 0.6, 16]} />
-        <meshStandardMaterial color="#fff" emissive="#008FD3" emissiveIntensity={1.5} />
+
+      {/* Side vent grilles — lighter blue-grey to match body */}
+      {([-1, 1] as number[]).map((side, si) =>
+        Array.from({ length: 5 }).map((_, i) => (
+          <mesh key={`grille-${si}-${i}`} position={[side * 0.93, -0.14 + i * 0.1, 0]}>
+            <boxGeometry args={[0.018, 0.048, 0.95]} />
+            <meshStandardMaterial color="#5bbce0" metalness={0.5} roughness={0.45} />
+          </mesh>
+        ))
+      )}
+
+      {/* Top edge rail — white with SAP blue emissive glow */}
+      <mesh position={[0, 0.275, 0]}>
+        <boxGeometry args={[1.87, 0.028, 1.07]} />
+        <meshStandardMaterial
+          color="#e8f4fb"
+          metalness={0.65}
+          roughness={0.2}
+          emissive="#00b4ff"
+          emissiveIntensity={isHovered ? 0.6 : 0.2}
+        />
       </mesh>
-      
+
+      {/* Rear I/O panel — SAP blue */}
+      <mesh position={[0, 0, -0.53]}>
+        <boxGeometry args={[1.83, 0.48, 0.016]} />
+        <meshStandardMaterial color="#1588b8" metalness={0.55} roughness={0.4} />
+      </mesh>
+      {/* Rear port cutouts */}
+      {([-0.6, -0.3, 0, 0.3, 0.6] as number[]).map((x, i) => (
+        <mesh key={`rport-${i}`} position={[x, 0, -0.54]}>
+          <boxGeometry args={[0.16, 0.12, 0.018]} />
+          <meshStandardMaterial color="#0a2030" />
+        </mesh>
+      ))}
+
       {/* Label */}
-      <group position={[0, 0.7, 0]}>
+      <group position={[0, 0.48, 0]}>
         <mesh position={[0, 0, -0.01]}>
           <planeGeometry args={[1.5, 0.2]} />
           <meshBasicMaterial color="#0A0A0A" transparent opacity={0.6} depthTest={false} />
@@ -354,7 +525,7 @@ function SAPBridge() {
           anchorY="middle"
           material-depthTest={false}
         >
-          {'SAP // Data Bus'}
+          {'SAP // Enterprise'}
         </Text>
       </group>
     </group>
@@ -485,9 +656,9 @@ export default function Motherboard() {
           <PMU />
           <SAPBridge />
           <SeriesNPU />
-          <RAMStick position={[3, 0.8, -0.8]} label="MEM_0: Computer Science" />
-          <RAMStick position={[3, 0.8, 0]} label="MEM_1: Business Admin" />
-          <RAMStick position={[3, 0.8, 0.8]} label="MEM_2: LeetCode" />
+          <RAMStick position={[3, 0.8, -0.8]} label="MEM_0: Computer Science" color="#00ff55" />
+          <RAMStick position={[3, 0.8, 0]}   label="MEM_1: Business Admin"   color="#ff8800" />
+          <RAMStick position={[3, 0.8, 0.8]} label="MEM_2: LeetCode"         color="#bb44ff" />
 
           {/* ─── Neon Tracers — data paths ─── */}
           {/* CPU → GPU */}
@@ -509,6 +680,15 @@ export default function Motherboard() {
               [3, 0.3, -0.8],
             ]}
             speed={0.6}
+          />
+          <NeonTracer
+            points={[
+              [0.9, 0.3, 0],
+              [1.8, 0.2, 0],
+              [2.5, 0.3, 0],
+              [3, 0.3, 0],
+            ]}
+            speed={0.65}
           />
           <NeonTracer
             points={[

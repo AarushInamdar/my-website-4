@@ -135,11 +135,11 @@ export default function Window({
       >
         {/* ─── Title Bar (drag handle) ─── */}
         <div
-          className="flex items-center h-8 px-3 bg-white/[0.03] border-b border-glass-border cursor-grab active:cursor-grabbing select-none shrink-0"
+          className="flex items-center h-8 pl-[10px] pr-3 bg-white/[0.03] border-b border-glass-border cursor-grab active:cursor-grabbing select-none shrink-0"
           onMouseDown={handleDragStart}
         >
-          {/* Traffic lights */}
-          <div className="flex items-center gap-1.5 mr-3 ml-2">
+          {/* Traffic lights — macOS-accurate 10px from left, 8px gap */}
+          <div className="flex items-center gap-2 mr-3">
             <button
               onClick={(e) => { e.stopPropagation(); closeWindow(id); }}
               onMouseDown={(e) => e.stopPropagation()}

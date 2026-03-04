@@ -6,31 +6,31 @@ import { motion, AnimatePresence } from 'framer-motion';
 const COMPANY_CONTENT = {
   apple: {
     title: 'Apple',
-    text: 'First ever SWE internship meaning a lot to me because my manager gave me a chance and took me under his wing.',
+    text: 'My first ever SWE internship. It meant a lot to me because my manager gave me a chance and took me under his wing, and also I learned a lot about the basics of software development in the industry.',
     color: '#E2E8F0',
     glow: '#ffffff',
   },
   trl11: {
     title: 'TRL11',
-    text: 'First startup internship and got a hands on experience in a way faster environment and wearing multiple hats.',
+    text: 'My first ever startup internship where I got a really hands on experience in a way faster environment and got the chance to wear multiple hats.',
     color: '#FFAA00',
     glow: '#FFAA00',
   },
   sap: {
     title: 'SAP',
-    text: 'Amazing E2E experience with emphasis on quality and process management.',
+    text: 'An amazing E2E experience with a lot of role emphasis on quality and process management.',
     color: '#3B82F6',
     glow: '#3B82F6',
   },
   adobe: {
     title: 'Adobe',
-    text: 'Mix of everything that allowed me to apply all that I learned.',
+    text: 'A balanced mix of everything that allowed me to apply all that I learned.',
     color: '#FF3B3F',
     glow: '#FF3B3F',
   },
   series: {
     title: 'Series.so',
-    text: 'Startup internship where I was a huge leader and had to push the needle as the technical lead on the B2B app that I made and architected from ground up, my biggest project ever.',
+    text: 'A startup leadership role where I had to push the needle as the technical lead on the B2B app that I made and architected from ground up, as my biggest project ever.',
     color: '#A855F7',
     glow: '#A855F7',
   }

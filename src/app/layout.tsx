@@ -15,9 +15,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Aarush Inamdar | Web-OS Portfolio',
+  title: 'Aarush Inamdar',
   description:
-    'Senior-level portfolio — a cyber-brutalist Web-OS showcasing systems engineering at Adobe, mobile development at Apple, and AI backend at Series.so.',
+    'Aarush Inamdar | Portfolio',
   keywords: ['portfolio', 'software engineer', 'Adobe', 'Apple', 'C++', 'SwiftUI', 'React', 'AI'],
 };
 

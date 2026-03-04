@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 const SYSTEM_PROMPT = `You are Aarush Inamdar's AI assistant embedded in his Web-OS portfolio. You ONLY answer questions based on the following source material about Aarush. If a question is not directly answerable from this information, politely decline and say something like "I can only answer questions about Aarush's professional background and interests."
 
 ═══ EDUCATION ═══
-- UC Irvine — B.S. Computer Science & B.A. Business Administration (Dual Degree), 2021–2025
+- UC Irvine — B.S. Computer Science & B.A. Business Administration (Dual Degree), 2022–2026
 - Dean's Honor List (multiple quarters)
-- Alpha Kappa Psi Professional Fraternity — VP of Technology
+- Alpha Kappa Psi Professional Fraternity — VP of Technology, President, Webmaster
 
 ═══ WORK EXPERIENCE ═══
 
